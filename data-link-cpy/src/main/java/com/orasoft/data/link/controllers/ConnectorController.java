@@ -3,6 +3,8 @@ package com.orasoft.data.link.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -159,6 +161,12 @@ public class ConnectorController {
 		
 		return flag;
 		
+	}
+	
+	@GetMapping(value="/infusionsoft/redirect")
+	public String infusionSoftRedirect(HttpServletRequest request) {
+		String redirectUrl = request.getScheme()+"://"+request.getServerName()+request.getContextPath();
+		return "redirect:https://signin.infusionsoft.com/app/oauth/authorize?client_id=ru4xs4ezqrvag27jw78qrezc&redirect_uri="+redirectUrl+"&response_type=code&scope=full";
 	}
 
 }
