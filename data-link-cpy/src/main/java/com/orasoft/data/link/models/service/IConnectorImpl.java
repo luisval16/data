@@ -44,4 +44,10 @@ public class IConnectorImpl implements IConnectorService {
 		return this.connectorDao.findByUserId(id, pageable);
 	}
 
+	@Override
+	public Long countByTypeAndUser(String type, Long id) {
+		// TODO Auto-generated method stub
+		return this.connectorDao.countByTypeAndUser(type, id);
+	}
+
 }

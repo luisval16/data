@@ -53,6 +53,17 @@ public class Connector {
 	@Column(name="last_updated")
 	private Date lastUpdated;
 	
+	@Column(name="id_cred")
+	private Long idCred;
+	
+	public Long getIdCred() {
+		return idCred;
+	}
+
+	public void setIdCred(Long idCred) {
+		this.idCred = idCred;
+	}
+
 	@PrePersist
 	public void prePersist() {
 		this.regDate =  new Date();

@@ -38,4 +38,10 @@ public class IConnectWiseCredentialsImpl implements IConnectWiseCredentialsServi
 		return this.connectWiseCredentialsDao.findById(id).orElse(null);
 	}
 
+	@Override
+	public Long CountByPublicKeyAndSecretKeyAndCompany(String publicKey, String secretKey, String company) {
+		// TODO Auto-generated method stub
+		return this.connectWiseCredentialsDao.CountByPublicKeyAndSecretKeyAndCompany(publicKey, secretKey, company);
+	}
+
 }

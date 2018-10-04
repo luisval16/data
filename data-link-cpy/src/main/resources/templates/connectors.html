@@ -19,18 +19,46 @@
 						<option value="2">ConnectWise</option>
 					</select>
 					<button class="btn btn-primary btn-xs col-3"
-						onclick="modalHandler.showModal();">New
-						Connector</button>
+						onclick="modalHandler.showModal();">New Connector</button>
 				</div>
 			</div>
-			
-			<div class="row"  th:each="conn : ${conns}" >
-				<h5 th:text="${conn.platform}" ></h5>
+			<h4 class="card-title text-left">Connections:</h4>
+			<div th:if="${not #lists.isEmpty(conns)}">
+
+				<div class="container row">
+					<div
+						class="card text-justify shadow p-3 mb-5 bg-white rounded col-lg-4 col-sm-12"
+						th:each="conn : ${conns}">
+
+						<div class="card-body">
+							<img th:src="@{/images/logos/ConnectWiseManage.png}"
+								alt="ConnectWise" class="img-thumbnail float-left mr-3"
+								style="width: 72px;">
+							<h4 class="card-title" th:text="${conn.platform}"></h4>
+
+							<p
+								th:text="'Added: ' + ${#dates.format(conn.regDate,'MM/dd/yyyy')}"></p>
+							<div class="row">
+								<button class="btn btn-primary col-lg-5 mr-lg-1 mb-sm-1" onclick="modalHandler.testConn();"
+									th:text="'Test'"></button>
+								<button class="btn btn-danger col-lg-5 mb-sm-1"
+									th:text="'Delete'"
+									th:onclick="'alerts.confirm(\'/delete/conn/'+${conn.id}+'\',\'Do you really want to delete the connector for '+${conn.platform}+'?\',\'Yes, delete\');'"></button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 
-     <div class="row" >
-     <nav th:replace="paginator-nav :: paginator" ></nav>
-     </div>
+			<div th:if="${#lists.isEmpty(conns)}">
+				<h5>There are no connections saved</h5>
+			</div>
+
+
+
+			<div class="row">
+				<nav th:replace="paginator-nav :: paginator"></nav>
+			</div>
 
 
 		</div>
@@ -50,14 +78,36 @@
 				} else if (app === '2') {
 					mensaje = 'connectWiseModal';
 				} else {
-					alerts.show('You must select a platform','warning','Understood');
+					alerts.show('You must select a platform', 'warning',
+							'Understood');
 				}
 				if (mensaje !== '') {
-					$('#'+mensaje).modal('show');
+					$('#' + mensaje).modal('show');
+				}
+			},
+			testConn: function(){
+				source: function(request,response){
+					$.ajax({
+						url: "/factura/cargar-productos/" + request.term,
+						dataType: "json",
+						data: {
+							term: request.term
+						},
+						success: function(data){
+							response($.map(data, function(item){
+								return{
+									value: item.id,
+									label: item.nombre,
+									precio: item.precio
+								};
+							}));
+						},
+					});
 				}
 			}
 		};
 	</script>
+	
 	<div th:replace="modals/modalConnectWise :: modalConnectWise"></div>
 	<div th:replace="modals/modalInfusionSoft :: modalInfusionSoft"></div>
 </body>

@@ -67,6 +67,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/token/**").hasAnyAuthority("admin")
 		.antMatchers("/eliminar/**").hasAnyAuthority("admin")
 		.antMatchers("/connectwise/connector").hasAnyAuthority("user")
+		.antMatchers("/delete/conn/**").hasAnyAuthority("user")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().successHandler(successHandler)

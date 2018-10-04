@@ -13,4 +13,6 @@ public interface IConnectWiseCredentialsService {
 	public void delete(Long id);
 	
 	public ConnectWiseCredentials findOne(Long id);
+	
+	public Long CountByPublicKeyAndSecretKeyAndCompany(String publicKey, String secretKey, String company);
 }

@@ -11,4 +11,7 @@ public interface IConnectorDao extends PagingAndSortingRepository<Connector, Lon
 
 	@Query("select c from Connector c where c.user.id = ?1 and c.active = 1")
 	public Page<Connector> findByUserId(Long id, Pageable pageable);
+	
+	@Query("select COUNT(c) from Connector c where c.type = ?1 and c.user.id = ?2")
+	public Long countByTypeAndUser(String type,Long id);
 }
