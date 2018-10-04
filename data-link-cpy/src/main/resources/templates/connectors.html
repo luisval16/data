@@ -31,19 +31,24 @@
 						th:each="conn : ${conns}">
 
 						<div class="card-body">
-							<img th:src="@{/images/logos/ConnectWiseManage.png}"
+							<img th:src="@{${conn.img}}"
 								alt="ConnectWise" class="img-thumbnail float-left mr-3"
 								style="width: 72px;">
 							<h4 class="card-title" th:text="${conn.platform}"></h4>
 
 							<p
 								th:text="'Added: ' + ${#dates.format(conn.regDate,'MM/dd/yyyy')}"></p>
+								<!--  <p
+								th:text="'Last test: ' + ${#dates.format(conn.lastUpdated,'MM/dd/yyyy')}"></p>-->
 							<div class="row">
-								<button class="btn btn-primary col-lg-5 mr-lg-1 mb-sm-1" onclick="modalHandler.testConn();"
-									th:text="'Test'"></button>
+								<button class="btn btn-primary col-lg-5 mr-lg-1 mb-sm-1" th:id="'btnTest' + ${conn.id}" th:onclick="'modalHandler.testConn('+${conn.id}+',this.id);'"
+									>
+									
+									Test
+									</button>
 								<button class="btn btn-danger col-lg-5 mb-sm-1"
 									th:text="'Delete'"
-									th:onclick="'alerts.confirm(\'/delete/conn/'+${conn.id}+'\',\'Do you really want to delete the connector for '+${conn.platform}+'?\',\'Yes, delete\');'"></button>
+									th:onclick="'alerts.confirm(\''+@{/delete/conn/}+''+${conn.id}+'\',\'Do you really want to delete the connector for '+${conn.platform}+'?\',\'Yes, delete\');'"></button>
 							</div>
 						</div>
 					</div>
@@ -68,7 +73,7 @@
 
 
 	<footer th:replace="layout/layoutUser :: footer"></footer>
-	<script>
+	<script th:inline="javascript" >
 		var modalHandler = {
 			showModal : function() {
 				var app = $('#connCombo').val();
@@ -85,27 +90,27 @@
 					$('#' + mensaje).modal('show');
 				}
 			},
-			testConn: function(){
-				source: function(request,response){
-					$.ajax({
-						url: "/factura/cargar-productos/" + request.term,
-						dataType: "json",
-						data: {
-							term: request.term
-						},
-						success: function(data){
-							response($.map(data, function(item){
-								return{
-									value: item.id,
-									label: item.nombre,
-									precio: item.precio
-								};
-							}));
-						},
-					});
-				}
+			testConn: function(id,btn){
+				$('#'+btn).prop("disabled",true);
+				$('#'+btn).html('<i class="fa fa-refresh fa-spin"></i>Testing...');
+				$.get( [[@{/test/conn/}]] + id,  function(response){ 
+					console.log(response);
+				     if (response) {
+				    	 alerts.show('Test succesful!','success','Ok');
+				    	 $('#'+btn).prop("disabled",false);
+					     $('#'+btn).attr("class","btn btn-success col-lg-5 mr-lg-1 mb-sm-1");
+					     $('#'+btn).html("Success");	
+					}else{
+						alerts.show('Test failed, try again later!','error','Ok');
+				    	 $('#'+btn).prop("disabled",false);
+					     $('#'+btn).attr("class","btn btn-danger col-lg-5 mr-lg-1 mb-sm-1");
+					     $('#'+btn).html("Failed");
+					}
+				});
 			}
 		};
+		
+		
 	</script>
 	
 	<div th:replace="modals/modalConnectWise :: modalConnectWise"></div>

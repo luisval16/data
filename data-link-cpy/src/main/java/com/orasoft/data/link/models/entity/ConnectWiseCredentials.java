@@ -1,5 +1,6 @@
 package com.orasoft.data.link.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,7 +19,12 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="dl_connectwise_credentials")
-public class ConnectWiseCredentials {
+public class ConnectWiseCredentials implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

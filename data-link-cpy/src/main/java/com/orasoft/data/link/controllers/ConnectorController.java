@@ -1,5 +1,6 @@
 package com.orasoft.data.link.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.orasoft.data.link.auth.handler.UserPrincipal;
@@ -89,6 +91,7 @@ public class ConnectorController {
 					con.setPlatform("ConnectWise");
 					con.setType("cw");
 					con.setUser(user);
+					con.setImg("/images/logos/ConnectWiseManage.png");
 					con.setIdCred(cwcNew.getId());
 					this.connectorService.save(con);
 					model.put("titulo", "Connectors");
@@ -136,6 +139,26 @@ public class ConnectorController {
 		}
 
 		return "redirect:/connectors";
+	}
+	
+	
+	@GetMapping(value="/test/conn/{id}",produces= {"application/json"})
+	public @ResponseBody boolean testConn(@PathVariable(name = "id")  Long id){
+		System.out.println("id: " + id);
+		Connector conn =  this.connectorService.findOne(id);
+		boolean flag = false;
+		if (conn != null) {
+			if (conn.getType().equals("cw")) {
+				ConnectWiseCredentials cwc = this.cwcService.findOne(id);
+				if (cwc != null) {
+					flag = this.cw.testConn(cwc);
+					this.connectorService.save(conn);
+				}
+			}
+		}
+		
+		return flag;
+		
 	}
 
 }

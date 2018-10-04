@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
 </head>
 <body>
 
@@ -109,6 +110,7 @@
 						  confirmButtonText: mensajeBtnConfirm
 						}).then((result) => {
 						  if (result.value) {
+							  //console.log(url);
 						    window.location.href = url;
 						    //console.log(url);
 						  }

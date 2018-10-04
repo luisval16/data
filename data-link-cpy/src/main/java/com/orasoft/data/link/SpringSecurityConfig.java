@@ -51,6 +51,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		 .antMatchers("/").hasAnyAuthority("user")
 		.antMatchers("/dashboard").hasAnyAuthority("user")
 		.antMatchers("/connectors").hasAnyAuthority("user")
+		.antMatchers("/connectwise/connector").hasAnyAuthority("user")
+		.antMatchers("/delete/conn/**").hasAnyAuthority("user")
 		.antMatchers("/user/**").hasAnyAuthority("admin")
 		.antMatchers("/users").hasAnyAuthority("admin")
 		.antMatchers("/delete/**").hasAnyAuthority("admin")
@@ -66,8 +68,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/tokens").hasAnyAuthority("admin")
 		.antMatchers("/token/**").hasAnyAuthority("admin")
 		.antMatchers("/eliminar/**").hasAnyAuthority("admin")
-		.antMatchers("/connectwise/connector").hasAnyAuthority("user")
-		.antMatchers("/delete/conn/**").hasAnyAuthority("user")
+		
 		.anyRequest().authenticated()
 		.and()
 		.formLogin().successHandler(successHandler)

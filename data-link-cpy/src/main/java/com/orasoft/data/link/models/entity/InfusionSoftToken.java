@@ -1,5 +1,6 @@
 package com.orasoft.data.link.models.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +18,12 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="dl_infusionsoft_tokens")
-public class InfusionSoftToken {
+public class InfusionSoftToken implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
