@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout2/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container">
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a class="btn btn-primary btn-xs" th:href="@{/token}">Token
+						Form</a>
+				</h4>
+				<table class="table table-striped table-bordered table-responsive">
+					<thead class="thead-inverse">
+						<tr>
+							<th>id</th>
+							<th>Token Actual</th>
+							<th>Token Refresh</th>
+							<th>Fecha</th>
+							<th>editar</th>
+							<th>eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="token: ${tokens}">
+							<td th:text="${token.id}"></td>
+							<td th:text="${token.tokenActual}"></td>
+							<td th:text="${token.tokenRefresh}"></td>
+							<td th:text="${token.fecha}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/token/} + ${token.id}" th:text="'editar'"></a></td>
+							<td><button class="btn btn-danger btn-xs"
+									th:text="'eliminar'"
+									th:onclick="'alerts.confirm(\'/eliminar/'+${token.id}+'\');'"></button></td>
+						</tr>
+					</tbody>
+				</table>
+				<nav th:replace="paginator-nav2 :: paginator"></nav>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout2/layout :: footer"></footer>
+</body>
+</html>

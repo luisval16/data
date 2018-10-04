@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery.jqplot.min.css}">
+</head>
+<body>
+	hello world
+
+
+
+	<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/sweetalert2.all.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
+	<script th:src="@{/js/jquery.jqplot.min.js}"></script>
+	<script th:src="@{/js/jqplot.barRenderer.js}"></script>
+	<script th:src="@{/js/jqplot.highlighter.js}"></script>
+	<script th:src="@{/js/jqplot.cursor.js}"></script>
+	<script th:src="@{/js/jqplot.pointLabels.js}"></script>
+	<script th:src="@{/js/jqplot.pieRenderer.js}"></script>
+	<script th:src="@{/js/jqplot.enhancedPieLegendRenderer.js}"></script>
+
+
+
+
+
+	<div id="chart3"
+					style="margin-top: 20px; margin-left: 20px; width: 300px; height: 300px;"></div>
+	<script>
+	$(document).ready(function(){
+	    var line1 = [ ['Nissan', 4],['Porche', 6],['Acura', 2],['Aston Martin', 5],['Rolls Royce', 6] ];
+	 
+	    $('#chart3').jqplot([line1], {
+	        title:'Bar Chart with Varying Colors',
+	        seriesDefaults:{
+	            renderer:$.jqplot.BarRenderer,
+	            rendererOptions: {
+	                // Set the varyBarColor option to true to use different colors for each bar.
+	                // The default series colors are used.
+	                varyBarColor: true
+	            }
+	        },
+	        axes:{
+	            xaxis:{
+	                renderer: $.jqplot.CategoryAxisRenderer
+	            }
+	        }
+	    });
+	});
+	</script>
+
+
+
+
+
+</body>
+</html>

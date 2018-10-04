@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container-fluid row">
+
+		<div th:replace="layout/layout :: sidebar"></div>
+
+
+		<div class="col-10" id="main-body">
+			<div class="card bg-light">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+				<form th:action="@{/assignroleuser}"  method="post" th:object="${userxrole}" >
+
+
+					<div class="form-group row">
+						<label for="User" class="col-sm-2 col-form-label">User email</label>
+						<div class="col-sm-6">
+							<select class="form-control" name="user" >
+							<option value="0"  th:selected="${userValue == 0}" >Select..</option>
+							<option th:each="user: ${userList}" th:text="${user.email}" th:value="${user.id}" th:selected="${userValue == user.id}"  > </option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="User" class="col-sm-2 col-form-label">Role</label>
+						<div class="col-sm-6">
+							<select class="form-control" name="role" >
+							<option value="0" th:selected="${roleValue == 0}"  >Select..</option>
+							<option th:each="role: ${roleList}" th:text="${role.roleName}" th:value="${role.id}" th:selected="${roleValue == role.id}" > </option>
+							</select>
+						</div>
+					</div>
+					
+                     
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" value="Guardar" class="btn btn-primary" />
+							<input type="hidden" th:field="*{id}" />
+						</div>
+					</div>				
+				
+				</form>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	
+
+
+</body>
+</html>

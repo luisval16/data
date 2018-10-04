@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container-fluid row">
+
+		<!--  <div th:replace="layout/layout :: sidebar"></div>-->
+
+
+		<div class="col-12" id="main-body">
+			<div class="card bg-light">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+					<h4 class="card-title">
+						<a sec:authorize="hasAuthority('admin')" class="btn btn-primary btn-xs" th:href="@{/assignroleuser}">Assign role to user</a>
+					</h4>
+					<table class="table table-striped table-bordered table-responsive">
+						<thead class="thead-inverse">
+							<tr>
+								<th>id</th>
+								<th>User</th>
+								<th>Role</th>
+								<th>Active</th>
+								<th>Registration date</th>
+								<th>Last updated</th>
+								<th>Edit</th>
+								<th>Disable/Enable</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="assign: ${list}">
+								<td th:text="${assign.id}"></td>
+								<td th:text="${assign.user.email}"></td>
+								<td th:text="${assign.role.roleName}"></td>
+								
+								<td >
+								<div th:if="${assign.active != null}">
+								<span th:if="${assign.active == 1}" class="text-success" >Enabled</span>
+								<span th:if="${assign.active == 0}" class="text-danger" >Disabled</span>
+								</div>
+								</td>
+								<td th:text="${assign.regDate}"></td>
+								<td th:text="${assign.lastUpdated}"></td>
+								<td><a class="btn btn-primary btn-xs" sec:authorize="hasAuthority('admin')"
+									th:href="@{/assignroleuser/} + ${assign.id}" th:text="'Edit'"></a></td>
+								<td><button sec:authorize="hasAuthority('admin')"
+								        th:if="${assign.active == 1}"
+								        class="btn btn-danger btn-xs"
+										th:text="'Disable'"
+										th:onclick="'alerts.confirm(\'/disable/'+${assign.id}+'\',\'Do you really want to disable the user ?\',\'Yes, disable\');'"></button>
+									<button sec:authorize="hasAuthority('admin')"
+								        th:if="${assign.active == 0}"
+								        class="btn btn-success btn-xs"
+										th:text="'Enable'"
+										th:onclick="'alerts.confirm(\'/enable/'+${assign.id}+'\',\'Do you really want to enable the user ?\',\'Yes, enable\');'"></button>	
+										</td>
+								<td><button class="btn btn-danger btn-xs"
+										th:text="'Delete'" sec:authorize="hasAuthority('admin')"
+										th:onclick="'alerts.confirm(\'/assignroleuser/'+${assign.id}+'\',\'Do you really want to delete the user ?\',\'Yes, delete\');'"></button></td>
+							</tr>
+						</tbody>
+					</table>
+					<nav th:replace="paginator-nav :: paginator"></nav>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<footer th:replace="layout/layout :: footer"></footer>
+
+</body>
+</html>

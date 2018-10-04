@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layoutUser :: header"></header>
+	<div class="container">
+
+   <div class="card bg-danger text-white" >
+   <div class="card-header" >
+   Page not found!
+   </div>
+   <div class="card-body" >
+   <h5 class="card-title" >We are sorry this page is not available yet</span> </h5>
+   <a th:href="@{/register}" class="btn btn-outline-light" role="button" >Go to the index</a>  
+   </div>
+   
+   </div>
+
+
+	</div>
+
+
+	<footer th:replace="layout/layoutUser :: footer"></footer>
+
+</body>
+</html>

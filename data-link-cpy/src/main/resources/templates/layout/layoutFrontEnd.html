@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
+<head th:fragment="head">
+
+<meta charset="utf-8">
+
+  <title>Motiva Data Link</title>
+  <meta name="description" content="Motiva">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+  <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+
+  <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script th:src="@{/js/scrollreveal.min.js}"></script>
+  <script th:src="@{/js/scripts.js}"></script>
+</head>
+
+<body>
+
+
+	<header th:fragment="header" class="main-header">
+        <div class="video-container">    
+            <video class="bg-video" autoplay loop>
+                    <source th:src="@{/media/datalinkBannerWeb.mp4}" type="video/mp4">
+                    <!-- <source src="mov_bbb.ogg" type="video/ogg"> -->
+                    Your browser does not support HTML5 video.
+            </video>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <a href="index.html">
+                        <img th:src="@{/images/main-logo.png}" class="brand-logo">
+                    </a>
+                </div>
+                <div class="col-lg-9">
+                    <div class="main-navigation navigation-top">
+                        <ul class="menu-list">
+                            <li><a href="data-link.html">Data link</a></li>
+                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="sync.html">Sync</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a class="active" th:href="@{/login}">Login</a></li>
+                        </ul>
+                        <a class="text-white" href="try.html">Try Data Link ></a>
+                    </div>
+                    <div class="social pull-right">
+                        <a class="text-white" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a class="text-white" href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        <a class="text-white" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a class="text-white" href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="content-header">
+                <div class="row">
+                    <div class="col-md-9 text-white">
+                        <div class="main-navigation">
+                            <ul class="menu-list">
+                                <li><a class="active" href="javascript:void(0)">The Story</a></li>
+                                <li><a href="javascript:void(0)">How it Works</a></li>
+                                <li><a href="javascript:void(0)">Connectors</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+	
+
+
+
+	<div class="container"></div>
+
+
+
+	<footer th:fragment="footer" class="container">
+		    <div ><!-- id="footer-container" -->
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+
+		<script>
+			var alerts = {
+				show : function(msj,type,btnText) {
+					swal({
+						title : msj,
+						//text : msj,
+						type : type,
+						confirmButtonText : btnText
+					});
+				},
+				confirm : function(url,mensaje,mensajeBtnConfirm){
+					swal({
+						  title: 'Confirmation',
+						  text:  mensaje,
+						  type: 'warning',
+						  showCancelButton: true,
+						  cancelButtonText: 'Cancel',
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: mensajeBtnConfirm
+						}).then((result) => {
+						  if (result.value) {
+						    window.location.href = url;
+						    //console.log(url);
+						  }
+						});
+				}
+			};
+		</script>
+		<!-- Mensajes -->
+		<div th:if="${success != null}">
+
+			<script th:inline="javascript">
+				alerts.show([[${success}]],'success','Ok');
+			</script>
+		</div>
+		<div th:if="${error != null}">
+			<script th:inline="javascript">
+				alerts.show([[${error}]],'error','Ok');
+			</script>
+		</div>
+		<div th:if="${warning != null}">
+			<script th:inline="javascript">
+				alerts.show([[${warning}]],'warning','Ok');
+			</script>
+		</div>
+		<div th:if="${info != null}">
+			<script th:inline="javascript">
+				alerts.show([[${info}]],'info','Ok');
+			</script>
+		</div>
+    </div>
+	</footer>
+
+
+
+</body>
+</html>

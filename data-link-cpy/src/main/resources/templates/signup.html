@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="layout/layoutFrontEnd :: head" ></head>
+<body>
+    <header th:replace="layout/layoutFrontEnd :: header" ></header>
+    <!-- end header -->
+
+
+    <section class="vpadding-big mb-5">
+        <div class="container">
+            <div class="row vpadding-big align-items-center">
+                <div class="col-md-6 offset-md-3">
+                    <h1 class="monserrat">Create account</h1>
+                    <div class="pricing-box mt-2 mb-5 revelar-delay-3">
+                        <form class="frm"  method="post" th:action="@{/signup}" th:object="${user}" >
+                            <p>Already have an account? <a th:href="@{/login}">Sign in</a></p>
+                            <div class="form-block">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" name="firstname" required th:field="*{firstName}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('firstName')}"
+								th:errors="*{firstName}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" name="lastname" required th:field="*{lastName}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('lastName')}"
+								th:errors="*{lastName}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" required th:field="*{email}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('email')}"
+								th:errors="*{email}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Company</label>
+                                <input type="text" class="form-control" name="company" required th:field="*{company}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('company')}"
+								th:errors="*{company}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Phone number</label>
+                                <input type="text" class="form-control" name="phone" required th:field="*{phoneNumber}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('phoneNumber')}"
+								th:errors="*{phoneNumber}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="password" required  th:field="*{password}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}"></small>
+                            </div>
+                            <div class="form-block">
+                                <label>Verify Password</label>
+                                <input type="password" class="form-control" name="verifyPassword" required  th:field="*{repassword}" >
+                                <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('repassword')}"
+								th:errors="*{repassword}"></small>
+                            </div>
+                            <small>By clicking "Submit" you consent to allow Motiva Data Link to use the information you provide to us to contact you about relevant content and products.  You may unsubscribe from these communications at any time.  For additional information, please read our <a href="#">Privacy Policy.</a>v</small>
+                            
+                            <div class="row mt-2">
+                                <div class="col-6 text-left">
+                                    <input type="submit" class="btn btn-rounded btn-blue" value="Submit" >
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer th:replace="layout/layoutFrontEnd :: footer" ></footer>
+   
+</body>
+</html>

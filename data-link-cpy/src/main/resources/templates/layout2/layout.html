@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+<meta charset="UTF-8">
+<title th:text="'Motiva Data Link ' + ${titulo}"></title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery.jqplot.min.css}">
+<!--  <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">-->
+<link rel="stylesheet" th:href="@{/css/dcalendar.picker.css}">
+</head>
+<body>
+
+
+	<header th:fragment="header" class="mb-5">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/tokens}">Motiva Data Link</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/history}">History</a></li>
+					<!--   <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>-->
+				</ul>
+				<!--<form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>-->
+			</div>
+		</nav>
+
+
+
+	</header>
+
+
+	<div class="container"></div>
+
+
+
+	<footer th:fragment="footer" class="container">
+		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/js/popper.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/sweetalert2.all.min.js}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+		
+		<script th:src="@{/js/jquery.jqplot.min.js}"></script>
+		<script th:src="@{/js/jqplot.barRenderer.js}"></script>
+		<script th:src="@{/js/jqplot.highlighter.js}"></script>
+		<script th:src="@{/js/jqplot.cursor.js}"></script>
+		<script th:src="@{/js/jqplot.pointLabels.js}"></script>
+		<script th:src="@{/js/jqplot.pieRenderer.js}"></script>
+		<script th:src="@{/js/jqplot.enhancedPieLegendRenderer.js}"></script>
+		<script th:src="@{/js/jqplot.categoryAxisRenderer.js}"></script>
+		<script th:src="@{/js/jqplot.pointLabels.js}"></script>
+		<script>
+			var alerts = {
+				show : function(msj,type,btnText) {
+					swal({
+						title : msj,
+						//text : msj,
+						type : type,
+						confirmButtonText : btnText
+					});
+				},
+				confirm : function(url){
+					swal({
+						  title: 'Esta seguro?',
+						  text: "No podra revertir esto!",
+						  type: 'warning',
+						  showCancelButton: true,
+						  cancelButtonText: 'Cancelar',
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Si, eliminar!'
+						}).then((result) => {
+						  if (result.value) {
+						    window.location.href = url;
+						    //console.log(url);
+						  }
+						});
+				}
+			};
+		</script>
+		<!-- Mensajes -->
+		<div th:if="${success != null}">
+			
+			<script th:inline="javascript" >
+				alerts.show([[${success}]],'success','Ok');
+			</script>
+		</div>
+		<div th:if="${error != null}" >
+			<script th:inline="javascript" >
+				alerts.show([[${error}]],'error','Ok');
+			</script>
+			</div>
+		<div th:if="${warning != null}">
+		<script th:inline="javascript" >
+				alerts.show([[${warning}]],'warning','Ok');
+			</script>
+		</div>
+		<div th:if="${info != null}">
+		<script th:inline="javascript" >
+				alerts.show([[${info}]],'info','Ok');
+			</script>
+		</div>
+	</footer>
+
+
+
+</body>
+</html>

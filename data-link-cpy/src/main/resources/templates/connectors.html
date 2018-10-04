@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layoutUser :: head"></head>
+<body>
+	<header th:replace="layout/layoutUser :: header"></header>
+
+	<div class="container-fluid row">
+		<div th:replace="layout/layoutUser :: sidebar"></div>
+		<div class="col-10 card border-primary text-center">
+			<div class="card-header">Connectors</div>
+			<div class="card-body">
+
+
+				<div class="card-title row">
+					<select class="form-control col-6 mr-3" id="connCombo">
+						<option value="0">Select..</option>
+						<option value="1">InfusionSoft</option>
+						<option value="2">ConnectWise</option>
+					</select>
+					<button class="btn btn-primary btn-xs col-3"
+						onclick="modalHandler.showModal();">New
+						Connector</button>
+				</div>
+			</div>
+			
+			<div class="row"  th:each="conn : ${conns}" >
+				<h5 th:text="${conn.platform}" ></h5>
+			</div>
+
+     <div class="row" >
+     <nav th:replace="paginator-nav :: paginator" ></nav>
+     </div>
+
+
+		</div>
+
+
+	</div>
+
+
+	<footer th:replace="layout/layoutUser :: footer"></footer>
+	<script>
+		var modalHandler = {
+			showModal : function() {
+				var app = $('#connCombo').val();
+				var mensaje = '';
+				if (app === '1') {
+					mensaje = 'infusionSoftModal';
+				} else if (app === '2') {
+					mensaje = 'connectWiseModal';
+				} else {
+					alerts.show('You must select a platform','warning','Understood');
+				}
+				if (mensaje !== '') {
+					$('#'+mensaje).modal('show');
+				}
+			}
+		};
+	</script>
+	<div th:replace="modals/modalConnectWise :: modalConnectWise"></div>
+	<div th:replace="modals/modalInfusionSoft :: modalInfusionSoft"></div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="modalConnectWise">
+
+		<!-- Button trigger modal -->
+		<script>
+			var validation = {
+				validate : function() {
+					var flag = false;
+					var url = $('#url').val();
+					//console.log(url);
+					var match = url.match(/^(https:\/\/)?[a-z0-9]{2,4}(.{1}myconnectwise)\.net/);
+					//console.log(match);
+					if (match == null) {
+						$('#urlInvalid').html('The url is invalid, for example https://na.myconnectwise.net');
+					}else{
+						$('#urlInvalid').html('');
+					}
+					return match == null?false:true;
+					
+				}
+
+			};
+		</script>
+
+		<!-- Modal -->
+		<div class="modal fade" id="connectWiseModal" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">ConnectWise
+							Connection</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="post" th:action="@{/connectwise/connector}" th:object="${cwc}" onsubmit="return validation.validate();" >
+						<div class="modal-body">
+
+							<div class="form-group row">
+								<label for="company" class="col-sm-6 col-form-label"><span
+									class="font-weight-bold">Company</span> <span
+									class="text-danger">(required)</span></label>
+
+								<div class="col-sm-11">
+									<input type="text" class="form-control" required="required"
+										placeholder="Please type company name..."  maxlength="20" th:field="*{company}" /> <small
+										class="from-text text-danger"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="company" class="col-sm-6 col-form-label"><span
+									class="font-weight-bold">Public Key</span> <span
+									class="text-danger">(required)</span></label>
+
+								<div class="col-sm-11">
+									<input type="text" class="form-control" required="required" th:field="*{publicKey}"
+										placeholder="Please type the public key..." maxlength="20"  /> <small
+										class="from-text text-danger"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="company" class="col-sm-6 col-form-label"><span
+									class="font-weight-bold"  >Private Key</span> <span
+									class="text-danger">(required)</span></label>
+
+								<div class="col-sm-11">
+									<input type="text" class="form-control" required="required" th:field="*{secretKey}"
+										placeholder="Please type the private key..."  maxlength="20" /> <small
+										class="from-text text-danger"></small>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="company" class="col-sm-6 col-form-label"><span
+									class="font-weight-bold">ConnectWise URL</span> <span
+									class="text-danger">(required)</span></label>
+
+								<div class="col-sm-11">
+									<input type="text" class="form-control" required="required" th:field="*{url}"
+										placeholder="https://na.myconnectwise.net" id="url"  /> <small
+										class="from-text text-danger"
+										id="urlInvalid"  ></small>
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<input type="submit" class="btn btn-primary"
+								value="Save Connection">
+								<input type="hidden"  th:field="*{id}" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+</body>
+</html>

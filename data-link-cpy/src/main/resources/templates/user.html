@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container-fluid row">
+
+		<div th:replace="layout/layout :: sidebar"></div>
+
+
+		<div class="col-10" id="main-body">
+			<div class="card bg-light">
+				<div class="card-header" th:text="${titulo}"></div>
+				<div class="card-body">
+				<form th:action="@{/user}" th:object="${user}" method="post" >
+
+
+					<div class="form-group row">
+						<label for="First name" class="col-sm-2 col-form-label">First name</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{firstName}" class="form-control" />
+							<small class="from-text text-danger"
+								th:if="${#fields.hasErrors('firstName')}"
+								th:errors="*{firstName}"></small>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="lastName" class="col-sm-2 col-form-label">Last name</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{lastName}"
+								class="form-control" /> <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('lastName')}"
+								th:errors="*{lastName}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label for="email" class="col-sm-2 col-form-label">Email</label>
+						<div class="col-sm-6">
+							<input type="email" th:field="*{email}"
+								class="form-control" /> <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('email')}"
+								th:errors="*{email}"></small>
+						</div>
+					</div>
+					
+					 <div class="form-group row" th:if="${op.equals('edit')}" >
+						<label for="resetPass" class="col-sm-2 col-form-label">Reset password</label>
+						<div class="col-sm-6">
+							<input type="checkbox" name="resetPass" id="resetPass"
+								class="form-control" value="true"  onclick="passHelper.showFields();" /> 
+						</div>
+					</div>
+                    <div  id="passFields" >
+                    <div class="form-group row"  >
+						<label for="password" class="col-sm-2 col-form-label">Password</label>
+						<div class="col-sm-6">
+							<input type="password" th:field="*{password}"
+								class="form-control" /> <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}"></small>
+						</div>
+					</div>
+
+                     <div class="form-group row"  >
+						<label for="repassword" class="col-sm-2 col-form-label">Repeat password</label>
+						<div class="col-sm-6">
+							<input type="password" th:field="*{repassword}"
+								class="form-control" /> 
+								<small class="from-text text-danger"
+								th:if="${#fields.hasErrors('repassword')}"
+								th:errors="*{repassword}"></small>
+								<!--  <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('global')}"
+								th:errors="*{global}"></small>-->
+						</div>
+					</div>
+					</div>
+					<div class="form-group row">
+						<label for="company" class="col-sm-2 col-form-label">Company</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{company}"
+								class="form-control" /> <small class="from-text text-danger"
+								th:if="${#fields.hasErrors('company')}"
+								th:errors="*{company}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label for="phoneNumber" class="col-sm-2 col-form-label">Phone number</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{phoneNumber}"
+								class="form-control" /> 
+								<small class="from-text text-danger"
+								th:if="${#fields.hasErrors('phoneNumber')}"
+								th:errors="*{phoneNumber}"></small>
+						</div>
+					</div>
+                     
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" value="Guardar" class="btn btn-primary" />
+							<input type="hidden" th:field="*{id}" />
+						</div>
+					</div>				
+				
+				</form>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	
+	<script th:inline="javascript" >
+	  $(document).ready(function(){
+		  if([[${op}]]  === 'edit' ){
+			  $('#passFields').hide();
+			  
+		  }
+		  if ([[${checked}]] != null) {
+			$('#resetPass').prop('checked',true);
+			passHelper.showFields();
+		  }
+		  
+		  
+	  });
+	
+	   var passHelper = {
+			   flag: 1,
+			   showFields: function(){
+				   if(this.flag === 1){
+					   $('#passFields').fadeIn();
+					   this.flag = 2;
+				   }else{
+					   $('#passFields').fadeOut();
+					   this.flag = 1;
+				   }
+			   }
+	   };
+	  
+	  
+	</script>
+
+</body>
+</html>

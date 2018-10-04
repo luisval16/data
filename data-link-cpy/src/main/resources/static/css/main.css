@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700,900');
+body{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+}
+header.main-header {
+    background: black;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 620px;
+}
+.video-container video.bg-video {
+    width: 1920px;
+    height: auto;
+    position:absolute;
+    top:0;
+    left: 50%;
+    margin-left: -960px;
+}
+img.brand-logo {
+    max-width: 150px;
+    margin: 20px 20px;
+}
+.main-navigation {
+    margin:10px;
+}
+.main-navigation.navigation-top {
+    text-align: right;
+}
+.main-navigation ul li a {
+    color: white;
+    padding: 10px;
+    border-bottom: 1px solid #999;
+    font-size: 14px;
+}
+.text-white{
+    color:white;
+}
+.text-blue{
+    color:#007bff;
+}
+.bg-blue-1{
+    background-color:#0079ff;
+}
+.bg-blue-2{
+    background-color:#004bb2;
+}
+ul.menu-list {
+    list-style: none;
+    margin: 0;
+    display: inline-block;
+    padding:0;
+}
+.menu-list li {
+    display: inline-block;
+}
+.main-navigation ul li a:hover, .main-navigation ul li a.active{
+    text-decoration: none;
+    border-color: #007bff;
+}
+.social a {
+    font-size: 20px;
+    display: inline-block;
+    padding: 10px;
+}
+.content-header {
+    margin-top: 80px;
+}
+.lista-logo li {
+    list-style-image: url(images/logo-list.png);
+    margin: 10px 0;
+}
+.lightblue{
+    background-color:rgba(0,121,255,.1);
+}
+.vpadding-big{
+    padding-top:40px;
+    padding-bottom:40px;
+}
+section{
+    position: relative;
+}
+.pestana-left::before{
+    content:"";
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    background: url('images/bg-0.png') no-repeat center right transparent;
+    left: 0;
+    background-size: auto 100%;
+    top: 0;
+    display: block;
+    margin-left: -10%;
+}
+.pestana-right::before{
+    content:"";
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    background: url('images/bg-01.png') no-repeat center left transparent;
+    right: 0;
+    background-size: auto 100%;
+    top: 0;
+    display: block;
+    margin-right: -10%;
+}
+section.section-pestana{
+    min-height: 447px;
+    overflow:hidden;
+}
+.btn-rounded {
+    border-radius: 20px;
+}
+.btn-blue{
+    background-color:#007bff;
+    color:white;
+    transition: all 0.2s;
+}
+.btn-blue:hover{
+    background-color:#2f93ff;
+    color:rgba(255,255,255,.8);
+}
+.gray{
+    background: rgba(0,0,0,.1)
+}
+.text-blue{
+    color:#0079ff;
+}
+.dark-bg{
+    background: url('images/bg-1.png') no-repeat center center #333333;
+    background-size: cover;
+}
+.dark-bg-2{
+    background: url('images/bg-2.png') no-repeat 20% 100% #333333;
+}
+.thin{
+    font-weight: 300;
+}
+footer{
+    background-color:#007bff;
+    color:white;
+}
+.form-control.input-rounded {
+    border-radius: 20px;
+}
+.form-control.input-light {
+    background: transparent;
+    color: white;
+}
+.form-control.input-light::placeholder {
+    color: rgba(255,255,255,.5);
+}
+.social-footer a .fa {
+    width: 30px;
+    font-size: 16pt;
+    margin: 10px 5px;
+}
+img {
+    max-width: 100%;
+}
+ul.list-green-check li{
+    list-style-image: url('images/circle-check-green.svg');
+}
+ul.list-blue-check li{
+    list-style-image: url('images/circle-check-blue.svg');
+}
+.pricing-boxes span.bg-blue-1 {
+    height: 30%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+.pricing-box {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 3px 4px 10px rgba(1, 121, 255, 0.5);
+}
+.label-default {
+    background: #d1d1d1;
+}
+.pricing-box span.label {
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.block{ 
+    display:block;
+}

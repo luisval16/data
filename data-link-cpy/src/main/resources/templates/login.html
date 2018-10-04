@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="layout/layoutFrontEnd :: head" ></head>
+<body>
+    <header th:replace="layout/layoutFrontEnd :: header" ></header>
+    <!-- end header -->
+
+
+    <section class="vpadding-big mb-5">
+        <div class="container">
+            <div class="row vpadding-big align-items-center">
+                <div class="col-md-4">
+                    <div class="mt-2 mb-5 revelar-delay-3">
+                        <h1 class="monserrat">Sign In</h1>
+                        <form class="frm" th:action="@{/login}" method="post"  >
+                            <p>Don't have an account? <a th:href="@{/signup}">Create an account</a></p>
+                            <div class="form-block">
+                                <label>Your Business Email</label>
+                                <input type="email" class="form-control" name="username" required placeholder="Login email..." >
+                            </div>
+                            <div class="form-block">
+                                <label class="block">Password <span class="pull-right"><a href="javascript:void(0)"><i class="fa fa-eye" aria-hidden="true"></i> <small>Show</small></a></span></label>
+                                <input type="password" class="form-control" name="password" required placeholder="Password" >
+                            </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-6 text-left">
+                                <a href="#">Forgot password?</a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <input type="submit" class="btn btn-rounded btn-blue" value="Sign in" />
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<footer th:replace="layout/layoutFrontEnd :: footer" ></footer>
+    
+    
+</body>
+</html>
