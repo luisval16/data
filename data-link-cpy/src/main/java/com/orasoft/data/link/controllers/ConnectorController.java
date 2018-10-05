@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.orasoft.data.link.auth.handler.UserPrincipal;
 import com.orasoft.data.link.connectors.ConnectCW;
+import com.orasoft.data.link.connectors.ConnectIS;
 import com.orasoft.data.link.models.entity.ConnectWiseCredentials;
 import com.orasoft.data.link.models.entity.Connector;
 import com.orasoft.data.link.models.entity.User;
@@ -33,6 +34,9 @@ public class ConnectorController {
 
 	@Autowired
 	private ConnectCW cw;
+
+	@Autowired
+	private ConnectIS is;
 
 	@Autowired
 	private IConnectWiseCredentialsService cwcService;
@@ -97,7 +101,7 @@ public class ConnectorController {
 					con.setIdCred(cwcNew.getId());
 					this.connectorService.save(con);
 					model.put("titulo", "Connectors");
-					flash.addFlashAttribute("success", "Connection created with success!");
+					flash.addFlashAttribute("success", "s");
 				} else {
 					model.put("titulo", "Connectors");
 					flash.addFlashAttribute("error", "Unexpected error check the errors log!");
@@ -142,31 +146,65 @@ public class ConnectorController {
 
 		return "redirect:/connectors";
 	}
-	
-	
-	@GetMapping(value="/test/conn/{id}",produces= {"application/json"})
-	public @ResponseBody boolean testConn(@PathVariable(name = "id")  Long id){
+
+	@GetMapping(value = "/test/conn/{id}", produces = { "application/json" })
+	public @ResponseBody boolean testConn(@PathVariable(name = "id") Long id) {
 		System.out.println("id: " + id);
-		Connector conn =  this.connectorService.findOne(id);
+		Connector conn = this.connectorService.findOne(id);
 		boolean flag = false;
 		if (conn != null) {
 			if (conn.getType().equals("cw")) {
-				ConnectWiseCredentials cwc = this.cwcService.findOne(id);
+				ConnectWiseCredentials cwc = this.cwcService.findOne(conn.getIdCred());
 				if (cwc != null) {
 					flag = this.cw.testConn(cwc);
 					this.connectorService.save(conn);
 				}
 			}
 		}
-		
+
 		return flag;
-		
+
 	}
-	
-	@GetMapping(value="/infusionsoft/redirect")
+
+	@GetMapping(value = "/infusionsoft/redirect")
 	public String infusionSoftRedirect(HttpServletRequest request) {
-		String redirectUrl = request.getScheme()+"://"+request.getServerName()+request.getContextPath();
-		return "redirect:https://signin.infusionsoft.com/app/oauth/authorize?client_id=ru4xs4ezqrvag27jw78qrezc&redirect_uri="+redirectUrl+"&response_type=code&scope=full";
+		String redirectUrl = request.getScheme() + "://" + request.getServerName() + request.getContextPath()
+				+ "/infusionsoft/auth";
+		return "redirect:https://signin.infusionsoft.com/app/oauth/authorize?client_id=ru4xs4ezqrvag27jw78qrezc&redirect_uri="
+				+ redirectUrl + "&response_type=code&scope=full";
+	}
+
+	// @PathVariable(name="code") String code,
+	@GetMapping(value = "/infusionsoft/auth")
+	public String infusionSoftAuth(HttpServletRequest request, Authentication auth,
+			RedirectAttributes flash) {
+
+		if (auth == null) {
+			return "login";
+		}
+		User user = ((UserPrincipal) auth.getPrincipal()).getUser();
+		System.out.println("User: " + user.getEmail());
+		String redirectUri = request.getScheme() + "://" + request.getServerName() + request.getContextPath()
+				+ "/infusionsoft/auth";
+		String code = request.getParameter("code");
+		if (code != null) {
+			Long idToken = this.is.generateNewTokens(user, code, redirectUri);
+			if (idToken != 0) {
+				Connector conn = new Connector();
+				conn.setUser(user);
+				conn.setIdCred(idToken);
+				conn.setPlatform("InfusionSoft");
+				conn.setType("is");
+				conn.setImg("/images/logos/InfusionSoftLogo.png");
+				this.connectorService.save(conn);
+				flash.addFlashAttribute("success","Connection to InfusionSoft created with success!");
+			} else {
+				flash.addFlashAttribute("error","Connection failed, try again later!");
+			}
+		}else {
+			flash.addFlashAttribute("error","Parameter code is missing!");
+		}
+		return "redirect:/connectors";
 	}
 
 }

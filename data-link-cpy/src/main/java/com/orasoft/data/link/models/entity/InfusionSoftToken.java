@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,6 +50,30 @@ public class InfusionSoftToken implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "reg_date")
 	private Date regDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_updated")
+	private Date lastUpdated;
+	
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.regDate =  new Date();
+		this.active = (long)1;
+		this.lastUpdated = new Date();
+	}
+	
+	@PreUpdate
+	public void preUpdate() {
+		this.lastUpdated = new Date();
+	}
 
 	public Long getId() {
 		return id;

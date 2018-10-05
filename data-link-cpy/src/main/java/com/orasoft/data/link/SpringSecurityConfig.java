@@ -53,6 +53,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/connectors").hasAnyAuthority("user")
 		.antMatchers("/connectwise/connector").hasAnyAuthority("user")
 		.antMatchers("/delete/conn/**").hasAnyAuthority("user")
+		.antMatchers("/infusionsoft/redirect").hasAnyAuthority("user")
+		.antMatchers("/infusionsoft/auth").hasAnyAuthority("user")
 		.antMatchers("/user/**").hasAnyAuthority("admin")
 		.antMatchers("/users").hasAnyAuthority("admin")
 		.antMatchers("/delete/**").hasAnyAuthority("admin")
