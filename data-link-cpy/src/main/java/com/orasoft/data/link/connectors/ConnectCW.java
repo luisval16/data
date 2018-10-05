@@ -24,11 +24,11 @@ public class ConnectCW {
 	@Autowired
 	private IErrorsService errorService;
 
-	private String getVersion(String url,ConnectWiseCredentials cwc) {
+	private String getVersion(ConnectWiseCredentials cwc) {
 		String codebase = "";
 		try {
 			HttpClient httpClient = HttpClientBuilder.create().build();
-			HttpGet request = new HttpGet(url + "/login/companyinfo/connectwise");
+			HttpGet request = new HttpGet(cwc.getUrl() + "/login/companyinfo/connectwise");
 			request.setHeader("Content-type", "application/json");
 			HttpResponse response = httpClient.execute(request);
 			System.out.println(response.getStatusLine().getStatusCode());
@@ -87,7 +87,7 @@ public class ConnectCW {
 	
 	public boolean testConn(ConnectWiseCredentials cwc) {
 		String restURL = "apis/3.0/company/companies";
-		String urlStr = "https://api-na.myconnectwise.net/" + this.getVersion("https://api-na.myconnectwise.net/", cwc) + restURL;
+		String urlStr = cwc.getUrl() + this.getVersion(cwc) + restURL;
 		boolean flag = false;
 		try {
 			HttpClient httpClient = HttpClientBuilder.create().build();

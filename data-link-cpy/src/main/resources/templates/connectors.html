@@ -27,8 +27,8 @@
 
 				<div class="container row">
 					<div
-						class="card text-justify shadow p-3 mb-5 bg-white rounded col-lg-4 col-sm-12"
-						th:each="conn : ${conns}">
+						class="card text-justify shadow p-3 mb-5 mr-3 bg-white rounded col-lg-4 col-sm-12"
+						th:each="conn : ${conns}" th:id="${conn.type}" >
 
 						<div class="card-body">
 							<img th:src="@{${conn.img}}"
@@ -43,12 +43,12 @@
 							<div class="row">
 								<button class="btn btn-primary col-lg-5 mr-lg-1 mb-sm-1" th:id="'btnTest' + ${conn.id}" th:onclick="'modalHandler.testConn('+${conn.id}+',this.id);'"
 									>
-									
+									<i class="fa fa-calculator"></i>
 									Test
 									</button>
 								<button class="btn btn-danger col-lg-5 mb-sm-1"
-									th:text="'Delete'"
-									th:onclick="'alerts.confirm(\''+@{/delete/conn/}+''+${conn.id}+'\',\'Do you really want to delete the connector for '+${conn.platform}+'?\',\'Yes, delete\');'"></button>
+									
+									th:onclick="'alerts.confirm(\''+@{/delete/conn/}+''+${conn.id}+'\',\'Do you really want to delete the connector for '+${conn.platform}+'?\',\'Yes, delete\');'"><i class="fa fa-trash mr-1"></i>Delete</button>
 							</div>
 						</div>
 					</div>
@@ -79,15 +79,24 @@
 				var app = $('#connCombo').val();
 				var mensaje = '';
 				if (app === '1') {
-					mensaje = 'infusionSoftModal';
+					if($('#is').html() == null){
+						mensaje = 'infusionSoftModal';
+					}
+					
 				} else if (app === '2') {
-					mensaje = 'connectWiseModal';
+					if($('#cw').html() == null){
+						mensaje = 'connectWiseModal';	
+					}
+					
 				} else {
 					alerts.show('You must select a platform', 'warning',
 							'Understood');
 				}
 				if (mensaje !== '') {
 					$('#' + mensaje).modal('show');
+				}else{
+					alerts.show('You already have a connection with that platform', 'warning',
+					'Understood');
 				}
 			},
 			testConn: function(id,btn){
@@ -99,12 +108,12 @@
 				    	 alerts.show('Test succesful!','success','Ok');
 				    	 $('#'+btn).prop("disabled",false);
 					     $('#'+btn).attr("class","btn btn-success col-lg-5 mr-lg-1 mb-sm-1");
-					     $('#'+btn).html("Success");	
+					     $('#'+btn).html('<i class="fa fa-check"></i> Success');	
 					}else{
 						alerts.show('Test failed, try again later!','error','Ok');
 				    	 $('#'+btn).prop("disabled",false);
 					     $('#'+btn).attr("class","btn btn-danger col-lg-5 mr-lg-1 mb-sm-1");
-					     $('#'+btn).html("Failed");
+					     $('#'+btn).html('<i class="fa fa-times mr-1"></i>Failed');
 					}
 				});
 			}

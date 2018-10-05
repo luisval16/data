@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title th:text="'Motiva Data Link ' + ${titulo}"></title>
 <meta name="description" content="Motiva">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
 <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
@@ -24,9 +24,9 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-             <ul class="navbar-nav mr-auto">
-             
-             </ul>
+				<ul class="navbar-nav mr-auto">
+
+				</ul>
 
 				<ul class="navbar-nav navbar-right">
 					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
@@ -60,11 +60,13 @@
 		class="col-lg-2 col-md-2 col-sm-12 col-xs-12" id="sidebar">
 		<div class="list-group">
 			<a th:href="@{/dashboard}"
-				class="list-group-item list-group-item-action" th:classappend="${activeIndexClassDash}" > Dashboard
-			</a> <a th:href="@{/connectors}"
-				class="list-group-item list-group-item-action" th:classappend="${activeIndexClassConn}"  >Connectors</a> <a
-				href="#" class="list-group-item list-group-item-action">Morbi
-				leo risus</a> <a href="#" class="list-group-item list-group-item-action">Porta
+				class="list-group-item list-group-item-action"
+				th:classappend="${activeIndexClassDash}"> Dashboard </a> <a
+				th:href="@{/connectors}"
+				class="list-group-item list-group-item-action"
+				th:classappend="${activeIndexClassConn}">Connectors</a> <a
+				th:href="@{/mappings}" class="list-group-item list-group-item-action" th:classappend="${activeIndexClassMapp}" >Mappings</a>
+			<a href="#" class="list-group-item list-group-item-action">Porta
 				ac consectetur ac</a> <a href="#"
 				class="list-group-item list-group-item-action disabled">Vestibulum
 				at eros</a>

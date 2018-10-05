@@ -3,10 +3,12 @@ package com.orasoft.data.link.models.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.orasoft.data.link.models.dao.IInfusionSoftTokensDao;
 import com.orasoft.data.link.models.entity.InfusionSoftToken;
 
+@Service
 public class IInfusionSoftTokensImpl implements IInfusionSoftTokensService {
 
 	@Autowired

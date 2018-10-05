@@ -90,7 +90,7 @@ public class ConnectIS {
 
 	}
 
-	public boolean refreshTokens(Connector conn) {
+	public boolean refreshTokens(Connector conn, boolean test) {
 		boolean flag = false;
 		try {
 			InfusionSoftToken ist = this.infusionSoftTokenService.findOne(conn.getIdCred());
@@ -102,7 +102,7 @@ public class ConnectIS {
 				long milis = (startTime.getMillis() - endTime.getMillis()) * -1;
 				double hours = milis / (1000 * 60 * 60);
 				System.err.println("Hours between last token " + hours);
-				if (hours >= 24) {
+				if (hours >= 24  || test) {
 					System.out.println("token debe refrescarse");
 					HttpClient httpClient = HttpClientBuilder.create().build();
 					HttpPost request = new HttpPost(this.tokenUrl);
@@ -111,11 +111,13 @@ public class ConnectIS {
 					postParameters.add(new BasicNameValuePair("grant_type", "refresh_token"));
 					postParameters.add(new BasicNameValuePair("refresh_token", ist.getRefreshToken()));
 					request.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+					request.setHeader("Authorization", this.getAuth(conn.getUser().getId()));
 					HttpResponse response = httpClient.execute(request);
 					System.out.println("Response " + response.getStatusLine().getStatusCode());
 					HttpEntity entity = response.getEntity();
 					String JsonResp = EntityUtils.toString(entity, StandardCharsets.UTF_8);
 					JSONObject myResponse = new JSONObject(JsonResp);
+					System.out.println("Response " + myResponse);
 					ist.setActualToken(myResponse.getString("access_token"));
 					ist.setRefreshToken(myResponse.getString("refresh_token"));
 					this.infusionSoftTokenService.save(ist);
