@@ -58,4 +58,10 @@ public class IConnectorImpl implements IConnectorService {
 		return (List<Connector>) this.connectorDao.findAll();
 	}
 
+	@Override
+	public List<Connector> findByUserId(Long id) {
+		// TODO Auto-generated method stub
+		return this.connectorDao.findByUserId(id);
+	}
+
 }

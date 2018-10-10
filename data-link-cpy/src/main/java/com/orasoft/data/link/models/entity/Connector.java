@@ -2,6 +2,7 @@ package com.orasoft.data.link.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -61,6 +63,51 @@ public class Connector implements Serializable{
 	
 	private String img;
 	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="firstConnector")
+	private List<Mapping> mappingsFst;
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="secondConnector")
+	private List<Mapping> mappingsSnd;
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="connector")
+	private List<CWCallback> callbacks;
+	
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="connector")
+	private List<ISWebhook> webhooks;
+	
+	
+	public List<Mapping> getMappingsFst() {
+		return mappingsFst;
+	}
+
+	public void setMappingsFst(List<Mapping> mappingsFst) {
+		this.mappingsFst = mappingsFst;
+	}
+
+	public List<Mapping> getMappingsSnd() {
+		return mappingsSnd;
+	}
+
+	public void setMappingsSnd(List<Mapping> mappingsSnd) {
+		this.mappingsSnd = mappingsSnd;
+	}
+
+	public List<CWCallback> getCallbacks() {
+		return callbacks;
+	}
+
+	public void setCallbacks(List<CWCallback> callbacks) {
+		this.callbacks = callbacks;
+	}
+
+	public List<ISWebhook> getWebhooks() {
+		return webhooks;
+	}
+
+	public void setWebhooks(List<ISWebhook> webhooks) {
+		this.webhooks = webhooks;
+	}
+
 	public String getImg() {
 		return img;
 	}

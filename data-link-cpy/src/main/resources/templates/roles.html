@@ -44,15 +44,15 @@
 								<td th:text="${role.lastUpdated}"></td>
 								<td><a class="btn btn-primary btn-xs"
 									th:href="@{/role/} + ${role.id}" th:text="'Edit'"></a></td>
-								<td><button th:if="${role.active == 1}"
+								<td><button th:if="${role.active == 1}" disabled="disabled"
 										class="btn btn-danger btn-xs" th:text="'Disable'"
 										th:onclick="'alerts.confirm(\'/role/disable/'+${role.id}+'\',\'Do you really want to disable the role '+${role.roleName}+'?\',\'Yes, disable\');'"></button>
-									<button th:if="${role.active == 0}"
+									<button th:if="${role.active == 0}" disabled="disabled"
 										class="btn btn-success btn-xs" th:text="'Enable'"
 										th:onclick="'alerts.confirm(\'/role/enable/'+${role.id}+'\',\'Do you really want to enable the role '+${role.roleName}+'?\',\'Yes, enable\');'"></button>
 								</td>
 								<td><button class="btn btn-danger btn-xs"
-										th:text="'Delete'"
+										th:text="'Delete'" disabled="disabled"
 										th:onclick="'alerts.confirm(\'/role/delete/'+${role.id}+'\',\'Do you really want to delete the role '+${role.roleName}+'?\',\'Yes, delete\');'"></button></td>
 							</tr>
 						</tbody>

@@ -14,15 +14,30 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.orasoft.data.link.models.entity.CWCallback;
 import com.orasoft.data.link.models.entity.ConnectWiseCredentials;
 import com.orasoft.data.link.models.entity.Errors;
+import com.orasoft.data.link.models.service.ICWCallbackService;
+import com.orasoft.data.link.models.service.IConnectWiseCredentialsService;
+import com.orasoft.data.link.models.service.IConnectorService;
 import com.orasoft.data.link.models.service.IErrorsService;
+import com.orasoft.data.link.models.service.http.HttpCrudService;
 
 @Service
 public class ConnectCW {
 	
 	@Autowired
 	private IErrorsService errorService;
+	
+	@Autowired
+	private HttpCrudService cwService;
+	
+	@Autowired
+	private IConnectWiseCredentialsService cwcService;
+	
+	@Autowired
+	private ICWCallbackService callbackService;
+	
 
 	private String getVersion(ConnectWiseCredentials cwc) {
 		String codebase = "";
@@ -122,5 +137,69 @@ public class ConnectCW {
 		
 		
 	}
+	
+	public boolean createCallback(CWCallback cwCallback) {
+		ConnectWiseCredentials cwc = this.cwcService.findOne(cwCallback.getConnector().getIdCred());
+		boolean flag = false;
+		try {
+			JSONObject callback  =  new JSONObject();
+			callback.put("url", cwCallback.getUrl());
+			callback.put("objectId", cwCallback.getObjectId());
+			callback.put("type",cwCallback.getType());
+			callback.put("level", cwCallback.getLevel());
+			String response = this.cwService.create(callback.toString(), this.getAuth(cwc), cwc.getUrl() + this.getVersion(cwc) + "apis/3.0/system/callbacks",cwc.getUser().getId());
+			callback = new JSONObject(response);
+			if (callback.has("message")) {
+				Errors error = new Errors();
+				error.setBody(callback.toString());
+				error.setMyClass("ConnectCW");
+				error.setDescrip("method:createCallback()");
+				error.setIdUser((Long)cwc.getUser().getId());
+				this.errorService.save(error);
+			}else {
+				cwCallback.setIdCw(callback.getLong("id"));
+				cwCallback.setMemberId(callback.getLong("memberId"));
+				cwCallback.setInfo(callback.getJSONObject("_info").toString());
+				this.callbackService.save(cwCallback);
+				flag = true;
+			}
+		} catch (Exception e) {
+			Errors error = new Errors();
+			error.setBody("{\"error\":\""+e.toString()+"\",\"message\":\""+e.getMessage()+"\"}");
+			error.setMyClass("ConnectCW");
+			error.setDescrip("method:createCallback()");
+			error.setIdUser((Long)cwc.getUser().getId());
+			this.errorService.save(error);
+			e.printStackTrace();
+		}finally {
+			return flag;	
+		}
+		
+		
+		
+		
+	}
+	
+	
+	public boolean deleteCallback(CWCallback cwCallback) {
+		boolean flag = false;
+		ConnectWiseCredentials cwc = this.cwcService.findOne(cwCallback.getConnector().getIdCred());
+		try {
+			this.cwService.delete(this.getAuth(cwc),cwc.getUrl()+this.getVersion(cwc)+"apis/3.0/system/callbacks", String.valueOf(cwCallback.getIdCw()), cwc.getUser().getId());
+			this.callbackService.delete(cwCallback.getId());
+			flag = true;
+		} catch (Exception e) {
+			Errors error = new Errors();
+			error.setBody("{\"error\":\""+e.toString()+"\",\"message\":\""+e.getMessage()+"\"}");
+			error.setMyClass("ConnectCW");
+			error.setDescrip("method:createCallback()");
+			error.setIdUser((Long)cwc.getUser().getId());
+			this.errorService.save(error);
+			e.printStackTrace();
+		}finally {
+			return flag;
+		}
+	}
+	
 	
 }

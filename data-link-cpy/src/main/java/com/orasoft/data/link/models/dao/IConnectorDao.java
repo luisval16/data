@@ -1,5 +1,7 @@
 package com.orasoft.data.link.models.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +13,9 @@ public interface IConnectorDao extends PagingAndSortingRepository<Connector, Lon
 
 	@Query("select c from Connector c where c.user.id = ?1 and c.active = 1")
 	public Page<Connector> findByUserId(Long id, Pageable pageable);
+	
+	@Query("select c from Connector c where c.user.id = ?1 and c.active = 1")
+	public List<Connector> findByUserId(Long id);
 	
 	@Query("select COUNT(c) from Connector c where c.type = ?1 and c.user.id = ?2")
 	public Long countByTypeAndUser(String type,Long id);

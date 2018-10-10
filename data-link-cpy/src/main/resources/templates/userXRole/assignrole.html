@@ -48,17 +48,17 @@
 								<td><button sec:authorize="hasAuthority('admin')"
 								        th:if="${assign.active == 1}"
 								        class="btn btn-danger btn-xs"
-										th:text="'Disable'"
-										th:onclick="'alerts.confirm(\'/disable/'+${assign.id}+'\',\'Do you really want to disable the user ?\',\'Yes, disable\');'"></button>
+										th:text="'Disable'" disabled="disabled"
+										th:onclick="'alerts.confirm(\''+@{/disable/}+''+${assign.id}+'\',\'Do you really want to disable the user ?\',\'Yes, disable\');'"></button>
 									<button sec:authorize="hasAuthority('admin')"
 								        th:if="${assign.active == 0}"
 								        class="btn btn-success btn-xs"
-										th:text="'Enable'"
-										th:onclick="'alerts.confirm(\'/enable/'+${assign.id}+'\',\'Do you really want to enable the user ?\',\'Yes, enable\');'"></button>	
+										th:text="'Enable'" disabled="disabled"
+										th:onclick="'alerts.confirm(\''+@{/enable/}+''+${assign.id}+'\',\'Do you really want to enable the user ?\',\'Yes, enable\');'"></button>	
 										</td>
-								<td><button class="btn btn-danger btn-xs"
+								<td><button class="btn btn-danger btn-xs" disabled="disabled"
 										th:text="'Delete'" sec:authorize="hasAuthority('admin')"
-										th:onclick="'alerts.confirm(\'/assignroleuser/'+${assign.id}+'\',\'Do you really want to delete the user ?\',\'Yes, delete\');'"></button></td>
+										th:onclick="'alerts.confirm(\''+@{/assignroleuser/}+''+${assign.id}+'\',\'Do you really want to delete the user ?\',\'Yes, delete\');'"></button></td>
 							</tr>
 						</tbody>
 					</table>

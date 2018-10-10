@@ -54,16 +54,16 @@
 								        th:if="${user.active == 1}"
 								        class="btn btn-danger btn-xs"
 										th:text="'Disable'"
-										th:onclick="'alerts.confirm(\'/disable/'+${user.id}+'\',\'Do you really want to disable the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, disable\');'"></button>
+										th:onclick="'alerts.confirm(\''+@{/disable/}+''+${user.id}+'\',\'Do you really want to disable the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, disable\');'"></button>
 									<button sec:authorize="hasAuthority('admin')"
 								        th:if="${user.active == 0}"
 								        class="btn btn-success btn-xs"
 										th:text="'Enable'"
-										th:onclick="'alerts.confirm(\'/enable/'+${user.id}+'\',\'Do you really want to enable the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, enable\');'"></button>	
+										th:onclick="'alerts.confirm(\''+@{/enable/}+''+${user.id}+'\',\'Do you really want to enable the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, enable\');'"></button>	
 										</td>
 								<td><button class="btn btn-danger btn-xs"
 										th:text="'Delete'" sec:authorize="hasAuthority('admin')"
-										th:onclick="'alerts.confirm(\'/delete/'+${user.id}+'\',\'Do you really want to delete the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, delete\');'"></button></td>
+										th:onclick="'alerts.confirm(\''+@{/delete/}+''+${user.id}+'\',\'Do you really want to delete the user '+${user.firstName}+' '+${user.lastName}+'?\',\'Yes, delete\');'"></button></td>
 							</tr>
 						</tbody>
 					</table>

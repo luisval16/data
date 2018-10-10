@@ -21,6 +21,8 @@ public interface IConnectorService {
 	
 	public Page<Connector> findByUserId(Long id, Pageable pageable);
 	
+	public List<Connector> findByUserId(Long id);
+	
 	public Long countByTypeAndUser(String type,Long id);
 	
 }

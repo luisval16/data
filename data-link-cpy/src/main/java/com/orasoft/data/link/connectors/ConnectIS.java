@@ -21,11 +21,14 @@ import org.springframework.stereotype.Service;
 
 import com.orasoft.data.link.models.entity.Connector;
 import com.orasoft.data.link.models.entity.Errors;
+import com.orasoft.data.link.models.entity.ISWebhook;
 import com.orasoft.data.link.models.entity.InfusionSoftToken;
 import com.orasoft.data.link.models.entity.User;
 import com.orasoft.data.link.models.service.IErrorsService;
+import com.orasoft.data.link.models.service.IISWebhookService;
 import com.orasoft.data.link.models.service.IInfusionSoftTokensService;
 import com.orasoft.data.link.models.service.IInfusionTokenService;
+import com.orasoft.data.link.models.service.http.HttpCrudService;
 
 @Service
 public class ConnectIS {
@@ -35,6 +38,12 @@ public class ConnectIS {
 
 	@Autowired
 	private IErrorsService errorService;
+	
+	@Autowired
+	private HttpCrudService crudService;
+	
+	@Autowired
+	private IISWebhookService webhookService;
 
 	private final String clientId = "ru4xs4ezqrvag27jw78qrezc";
 	private final String clientSecret = "AnMdcrG9Rv";
@@ -166,5 +175,91 @@ public class ConnectIS {
 
 		return auth;
 	}
+	
+	
+	
+	public ISWebhook createWebhook(ISWebhook isWebhook) {
+		ISWebhook res = null;
+		Connector conn = isWebhook.getConnector();
+		User user = conn.getUser();
+		this.refreshTokens(conn, false);
+		InfusionSoftToken ist = this.infusionSoftTokenService.findOne(conn.getIdCred());
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("eventKey", isWebhook.getEventKey());
+			obj.put("hookUrl", isWebhook.getHookUrl());
+			String auth = "Bearer " + ist.getActualToken();
+			obj = new JSONObject(this.crudService.create(obj.toString(), auth,  this.baseUrl + "/hooks" , user.getId()));
+			if (!obj.has("message")) {
+				isWebhook.setKey(obj.getString("key"));
+				isWebhook.setStatus(obj.getString("status"));
+				ISWebhook addedHook = this.webhookService.save(isWebhook);
+				obj = new JSONObject(this.crudService.getById(auth, this.baseUrl + "/hooks", String.valueOf(addedHook.getId()), user.getId()));
+				String status = obj.has("status")?obj.getString("status"):"too fast";
+				addedHook.setStatus(status);
+				res = this.webhookService.save(addedHook);
+			}
+		} catch (Exception e) {
+			res = null;
+			Errors error = new Errors();
+			error.setBody("{\"error\":\"" + e.toString() + "\",\"message\":\"" + e.getMessage() + "\"}");
+			error.setMyClass("ConnectIS");
+			error.setDescrip("method:createWebhook()");
+			error.setIdUser(user.getId());
+			this.errorService.save(error);
+			e.printStackTrace();
+		}finally {
+			return res;
+		}
+		
+		
+	}
+	
+	public boolean deleteWebHook(ISWebhook isWebhook) {
+		boolean flag = false;
+		Connector conn = isWebhook.getConnector();
+		User user = conn.getUser();
+		this.refreshTokens(conn, false);
+		InfusionSoftToken ist = this.infusionSoftTokenService.findOne(conn.getIdCred());
+		try {
+			String auth = "Bearer " + ist.getActualToken();
+			this.crudService.delete(auth,this.baseUrl + "/hooks", isWebhook.getKey(), user.getId());
+			this.webhookService.delete(isWebhook.getId());
+			flag = true;
+		} catch (Exception e) {
+			Errors error = new Errors();
+			error.setBody("{\"error\":\"" + e.toString() + "\",\"message\":\"" + e.getMessage() + "\"}");
+			error.setMyClass("ConnectIS");
+			error.setDescrip("method:deleteWebhook()");
+			error.setIdUser(user.getId());
+			this.errorService.save(error);
+			e.printStackTrace();
+		}finally {
+			return flag;
+		}
+		
+		
+	}
+	
+	/*public boolean isWebHookVerified(ISWebhook isWebhook) {
+		boolean flag = false;
+		try {
+			this.crudService.getById(auth, url, id, idUser)
+			
+		} catch (Exception e) {
+			Errors error = new Errors();
+			error.setBody("{\"error\":\"" + e.toString() + "\",\"message\":\"" + e.getMessage() + "\"}");
+			error.setMyClass("ConnectIS");
+			error.setDescrip("method:isWebHookVerified()");
+			error.setIdUser(isWebhook.getConnector().getUser().getId());
+			this.errorService.save(error);
+			e.printStackTrace();
+		}finally {
+		return flag;	
+		}
+		
+		
+	}*/
+	
 
 }

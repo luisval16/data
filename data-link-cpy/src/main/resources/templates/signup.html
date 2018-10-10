@@ -44,7 +44,7 @@
                             </div>
                             <div class="form-block">
                                 <label>Phone number</label>
-                                <input type="text" class="form-control" name="phone" required th:field="*{phoneNumber}" >
+                                <input type="text" class="form-control" name="phone" th:field="*{phoneNumber}" >
                                 <small class="from-text text-danger"
 								th:if="${#fields.hasErrors('phoneNumber')}"
 								th:errors="*{phoneNumber}"></small>

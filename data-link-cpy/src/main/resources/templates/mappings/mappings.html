@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layoutUser :: head"></head>
+<body>
+	<header th:replace="layout/layoutUser :: header"></header>
+
+	<div class="container-fluid row">
+		<div th:replace="layout/layoutUser :: sidebar"></div>
+		<div class="col-10 card border-primary text-center">
+			<div class="card-header">Mappings</div>
+			<div class="card-body">
+				<h4 class="card-title text-left">Mappings:</h4>
+				<a th:href="@{/addMapping}" class="btn btn-primary float-right">Add
+					new mapping</a>
+
+
+				<div id="Contact" th:each="map : ${list}"
+					class="card text-justify shadow p-3 mb-5 mr-3 bg-white rounded col-lg-12 col-sm-12 connector"
+					onclick="selectorHelper.selectObject('Contact');">
+
+					<div class="card-body">
+
+						<div class="row">
+							<div class="col-lg-4 col-sm-12 col-md-4">
+								<img th:src="@{${map.img}}" alt="ConnectWise"
+									class="img-thumbnail mr-3" style="width: 72px;">
+							</div>
+							<div class="col-lg-7 col-sm-12 col-md-7">
+								<h4 class="card-title" style="width: 100%;"
+									th:text="${map.type}"></h4>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<p class="font-weight-bold"
+									th:text="${map.firstConnector.platform + ' - ' + map.secondConnector.platform}"></p>
+							</div>
+							<div class="col-lg-12">
+								<p>
+
+									Added: <span class="text-danger font-weight-bold"
+										th:text="${#dates.format(map.regDate,'MM/dd/yyyy')}"></span>
+								</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+
+								<button class="btn btn-danger col-lg-5 mb-sm-1"
+									th:onclick="'alerts.confirm(\''+@{/delete/map/}+''+${map.id}+'\',\'Do you really want to delete the mapping for '+${map.type}+'?\',\'Yes, delete\');'">
+									<i class="fa fa-trash mr-1"></i>Delete
+								</button>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+	</div>
+
+
+	</div>
+
+
+	<footer th:replace="layout/layoutUser :: footer"></footer>
+	
+		
+	
+	<div  th:replace="modals/loadingModal :: loadingModal" ></div>
+
+</body>
+</html>

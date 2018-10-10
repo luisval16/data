@@ -2,8 +2,10 @@ package com.orasoft.data.link;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -55,6 +57,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/delete/conn/**").hasAnyAuthority("user")
 		.antMatchers("/infusionsoft/redirect").hasAnyAuthority("user")
 		.antMatchers("/infusionsoft/auth").hasAnyAuthority("user")
+		.antMatchers("/mappings").hasAnyAuthority("user")
+		.antMatchers("/save/mapping").hasAnyAuthority("user")
+		.antMatchers("/addMapping").hasAnyAuthority("user")
+		.antMatchers("/delete/map/**").hasAnyAuthority("user")
 		.antMatchers("/user/**").hasAnyAuthority("admin")
 		.antMatchers("/users").hasAnyAuthority("admin")
 		.antMatchers("/delete/**").hasAnyAuthority("admin")
@@ -79,6 +85,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.logout().permitAll()
 		.and()
 		.exceptionHandling().accessDeniedPage("/error_403");
+		
+		
+		//http.httpBasic().and().authorizeRequests().antMatchers(HttpMethod.POST, "/api/companies").permitAll();
+		
 	}
 
 	@Autowired
@@ -103,5 +113,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		
 	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		// TODO Auto-generated method stub
+		web.ignoring().antMatchers("/api/**");
+	}
+	
+	
 	
 }

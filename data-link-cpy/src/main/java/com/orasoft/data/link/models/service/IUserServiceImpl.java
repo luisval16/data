@@ -1,10 +1,12 @@
 package com.orasoft.data.link.models.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.orasoft.data.link.models.dao.IUserDao;
@@ -16,6 +18,9 @@ public class IUserServiceImpl implements IUserService{
 	@Autowired
 	private IUserDao userDao;
 
+	@Autowired
+	private PasswordEncoder encoder;
+	
 	@Override
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
@@ -50,6 +55,19 @@ public class IUserServiceImpl implements IUserService{
 	public Page<User> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return this.userDao.findAll(pageable);
+	}
+
+	@Override
+	public User findUserByEncoder(String code) {
+		// TODO Auto-generated method stub
+		User u = null;
+		List<User> users =  this.findAll();
+		for (User user : users) {
+			if (encoder.matches(user.getEmail()+user.getId(), code)) {
+				u = user;
+			}
+		}
+		return u;
 	}
 
 }

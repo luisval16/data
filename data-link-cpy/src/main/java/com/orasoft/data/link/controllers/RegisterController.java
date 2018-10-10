@@ -76,7 +76,7 @@ public class RegisterController {
 		status.setComplete();
 		flash.addFlashAttribute("success",
 				"Login email " + user.getEmail() + " registered succesful, you can login now!");
-       
+		flash.addFlashAttribute("loginModal","open");
 		
 		return "redirect:/login";
 	}

@@ -22,5 +22,5 @@ public interface IUserService {
 	
 	public Long CountByEmailEqual(String email);
 	
-	
+	public User findUserByEncoder(String code);
 }
